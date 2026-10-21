@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Orientador | EPO 381</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/portal.css">
+</head>
+<body>
+<div class="pw-sidebar-overlay" onclick="pwToggleSidebar()"></div>
+
+<div class="pw-topbar">
+    <div class="pw-topbar-brand">
+        <img src="img/Logo.png" alt="Logo" onerror="this.style.display='none'">
+        <div><h1>EPO 381</h1><span>Portal Orientador</span></div>
+    </div>
+    <button class="pw-hamburger" onclick="pwToggleSidebar()">☰</button>
+    <div class="pw-topbar-user" id="ori-nombre-top">Cargando...</div>
+    <div class="pw-topbar-actions">
+        <a class="pw-btn pw-btn-outline" href="index.html?publico=1">🏠 Sitio Público</a>
+        <button class="pw-btn pw-btn-red" onclick="cerrarSesion()">🚪 Salir</button>
+    </div>
+</div>
+
+<div class="pw-wrap">
+    <div class="pw-layout">
+        <div class="pw-sidebar">
+            <div class="pw-side-link active" data-panel="alumnos" onclick="oriGoto('alumnos')">👥 Alumnos y Fichas</div>
+            <div class="pw-side-link" data-panel="captura" onclick="oriGoto('captura')">✍️ Captura de Calificaciones</div>
+            <div class="pw-side-link" data-panel="reportes" onclick="oriGoto('reportes')">📊 Reportes Académicos</div>
+            <div class="pw-side-link" data-panel="conducta" onclick="oriGoto('conducta')">📝 Reportes de Conducta</div>
+        </div>
+
+        <div class="pw-content">
+            <div class="pw-alert" id="ori-alert"></div>
+
+            <div class="pw-card" style="margin-bottom:22px;">
+                <div class="pw-form-row" style="margin:0;">
+                    <div class="pw-fgrp" style="margin:0;"><span class="pw-flbl">Grupo a trabajar</span>
+                        <select class="pw-sel" id="ori-grupo-actual" onchange="oriCambioGrupo()"></select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ALUMNOS Y FICHAS -->
+            <div class="pw-tab-content active" id="panel-alumnos">
+                <div class="pw-header"><div><h2>👥 Alumnos del Grupo</h2><p>Consulta la ficha completa de datos personales.</p></div><span class="pw-badge">Orientador</span></div>
+                <div class="pw-table-wrap">
+                    <div class="pw-table-head"><h3>Listado</h3><span class="pw-count-badge" id="ori-count-alumnos">0</span></div>
+                    <div style="overflow-x:auto;">
+                        <table class="pw-table">
+                            <thead><tr><th>Matrícula</th><th>Alumno</th><th>Perfil</th><th>Estatus</th><th>Ficha</th></tr></thead>
+                            <tbody id="ori-tbody-alumnos"><tr><td colspan="5" class="pw-empty">Selecciona un grupo.</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CAPTURA DE CALIFICACIONES -->
+            <div class="pw-tab-content" id="panel-captura">
+                <div class="pw-header"><div><h2>✍️ Captura de Calificaciones</h2><p>Selecciona el parcial y registra la calificación de cada materia.</p></div><span class="pw-badge">Orientador</span></div>
+                <div class="pw-card">
+                    <div class="pw-form-row" style="margin:0;">
+                        <div class="pw-fgrp"><span class="pw-flbl">Periodo / Parcial</span>
+                            <select class="pw-sel" id="cap-periodo">
+                                <option value="1">Parcial 1</option><option value="2">Parcial 2</option><option value="3">Parcial 3</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="pw-table-wrap">
+                    <div class="pw-table-head"><h3>Captura</h3><button class="pw-btn pw-btn-red" onclick="oriGuardarCalificaciones()">💾 Guardar Calificaciones</button></div>
+                    <div style="overflow-x:auto;">
+                        <table class="pw-table" id="cap-tabla">
+                            <thead><tr><th>Alumno</th></tr></thead>
+                            <tbody id="cap-tbody"><tr><td class="pw-empty">Selecciona un grupo.</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REPORTES ACADÉMICOS -->
+            <div class="pw-tab-content" id="panel-reportes">
+                <div class="pw-header"><div><h2>📊 Reportes Académicos</h2><p>Informe de calificaciones, concentrado, reprobados, indicadores y cuadro de honor — descargables en PDF, Excel o todos juntos.</p></div><span class="pw-badge">Orientador</span></div>
+                <div class="pw-tabs">
+                    <button class="pw-tab-btn active" data-rep="concentrado" onclick="oriRepTab('concentrado')">📋 Concentrado</button>
+                    <button class="pw-tab-btn" data-rep="reprobados" onclick="oriRepTab('reprobados')">⚠️ Reprobados</button>
+                    <button class="pw-tab-btn" data-rep="indicadores" onclick="oriRepTab('indicadores')">📈 Indicadores</button>
+                    <button class="pw-tab-btn" data-rep="honor" onclick="oriRepTab('honor')">🏅 Cuadro de Honor</button>
+                    <button class="pw-tab-btn" data-rep="irregulares" onclick="oriRepTab('irregulares')">🔁 Irregulares</button>
+                    <button class="pw-tab-btn" data-rep="boleta" onclick="oriRepTab('boleta')">🧾 Informe de Calificaciones</button>
+                </div>
+
+                <div class="pw-card" id="rep-boleta-selector" style="display:none;">
+                    <div class="pw-form-row" style="margin:0;">
+                        <div class="pw-fgrp"><span class="pw-flbl">Alumno</span><select class="pw-sel" id="rep-alumno-sel" onchange="oriCargarReporte()"></select></div>
+                    </div>
+                </div>
+
+                <div class="pw-card" style="display:flex; gap:12px; align-items:center; justify-content:flex-end; flex-wrap:wrap;">
+                    <button class="pw-btn pw-btn-blue" onclick="oriDescargar('pdf')">🖨️ Descargar PDF</button>
+                    <button class="pw-btn pw-btn-gray" onclick="oriDescargar('excel')">📗 Descargar Excel</button>
+                    <button class="pw-btn pw-btn-red" onclick="oriDescargar('todos')">📦 Descargar todos (ZIP)</button>
+                </div>
+
+                <div id="rep-contenido"><div class="pw-empty">Selecciona un tipo de reporte.</div></div>
+            </div>
+
+            <!-- REPORTES DE CONDUCTA -->
+            <div class="pw-tab-content" id="panel-conducta">
+                <div class="pw-header"><div><h2>📝 Reportes de Conducta</h2><p>Registra y consulta incidencias del grupo.</p></div><span class="pw-badge">Orientador</span></div>
+                <div class="pw-card">
+                    <h3 id="oc-form-title">Nuevo reporte</h3>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Alumno</span><select class="pw-sel" id="oc-alumno"></select></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Fecha</span><input class="pw-inp" type="date" id="oc-fecha"></div>
+                    </div>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Motivo</span><input class="pw-inp" id="oc-motivo"></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Medida tomada</span><input class="pw-inp" id="oc-medida"></div>
+                    </div>
+                    <div class="pw-fgrp"><span class="pw-flbl">Descripción</span><textarea class="pw-textarea" id="oc-descripcion"></textarea></div>
+                    <div style="display:flex;gap:10px;">
+                        <button class="pw-btn pw-btn-red" id="oc-submit-btn" onclick="oriCrearReporte()">📤 Generar Reporte</button>
+                        <button class="pw-btn pw-btn-gray" id="oc-cancelar-btn" style="display:none;" onclick="oriCancelarEdicionReporte()">Cancelar edición</button>
+                    </div>
+                </div>
+                <div class="pw-table-wrap">
+                    <div class="pw-table-head"><h3>Historial del grupo</h3></div>
+                    <div style="overflow-x:auto;">
+                        <table class="pw-table">
+                            <thead><tr><th>Fecha</th><th>Alumno</th><th>Autor</th><th>Motivo</th><th>Medida</th><th>Acciones</th></tr></thead>
+                            <tbody id="ori-tbody-conducta"><tr><td colspan="6" class="pw-empty">Selecciona un grupo.</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL FICHA -->
+<div class="pw-modal-bg" id="modal-ficha">
+    <div class="pw-modal">
+        <h3>🧾 Ficha del Alumno</h3>
+        <div id="modal-ficha-body">Cargando...</div>
+        <button class="pw-btn pw-btn-gray" style="margin-top:16px;" onclick="document.getElementById('modal-ficha').classList.remove('open')">Cerrar</button>
+    </div>
+</div>
+
+<script src="assets/js/portal-common.js"></script>
+<script src="assets/js/orientador.js"></script>
+</body>
+</html>

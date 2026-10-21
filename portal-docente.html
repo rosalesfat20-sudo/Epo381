@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Docente | EPO 381</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/portal.css">
+</head>
+<body>
+<div class="pw-sidebar-overlay" onclick="pwToggleSidebar()"></div>
+
+<div class="pw-topbar">
+    <div class="pw-topbar-brand">
+        <img src="img/Logo.png" alt="Logo" onerror="this.style.display='none'">
+        <div><h1>EPO 381</h1><span>Portal Docente</span></div>
+    </div>
+    <button class="pw-hamburger" onclick="pwToggleSidebar()">☰</button>
+    <div class="pw-topbar-user" id="doc-nombre-top">Cargando...</div>
+    <div class="pw-topbar-actions">
+        <a class="pw-btn pw-btn-outline" href="index.html?publico=1">🏠 Sitio Público</a>
+        <button class="pw-btn pw-btn-red" onclick="cerrarSesion()">🚪 Salir</button>
+    </div>
+</div>
+
+<div class="pw-wrap">
+    <div class="pw-layout">
+        <div class="pw-sidebar">
+            <div class="pw-side-link active" data-panel="calificaciones" onclick="docGoto('calificaciones')">📊 Calificaciones</div>
+            <div class="pw-side-link" data-panel="conducta" onclick="docGoto('conducta')">📝 Reportes de Conducta</div>
+        </div>
+
+        <div class="pw-content">
+            <div class="pw-alert" id="doc-alert"></div>
+
+            <!-- CALIFICACIONES -->
+            <div class="pw-tab-content active" id="panel-calificaciones">
+                <div class="pw-header">
+                    <div><h2>📊 Consulta de Calificaciones</h2><p>Solo puedes visualizar, la captura la realiza el Orientador.</p></div>
+                    <span class="pw-badge">Docente</span>
+                </div>
+                <div class="pw-stats">
+                    <div class="pw-stat blue"><div class="pw-stat-ico">👥</div><div><div class="pw-stat-val" id="doc-total">0</div><div class="pw-stat-lbl">Alumnos</div></div></div>
+                    <div class="pw-stat green"><div class="pw-stat-ico">✅</div><div><div class="pw-stat-val" id="doc-aprov">0</div><div class="pw-stat-lbl">Aprobados</div></div></div>
+                    <div class="pw-stat" style="border-left-color:#dc2626;"><div class="pw-stat-ico">❌</div><div><div class="pw-stat-val" id="doc-repro">0</div><div class="pw-stat-lbl">Reprobados</div></div></div>
+                    <div class="pw-stat amber"><div class="pw-stat-ico">📈</div><div><div class="pw-stat-val" id="doc-prom">—</div><div class="pw-stat-lbl">Promedio</div></div></div>
+                </div>
+                <div class="pw-card">
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Grupo / Materia</span>
+                            <select class="pw-sel" id="doc-sel-asignacion" onchange="docCargarCalificaciones()"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="pw-table-wrap">
+                    <div class="pw-table-head"><h3>Calificaciones</h3><span class="pw-count-badge" id="doc-count-badge">0 alumnos</span></div>
+                    <div style="overflow-x:auto;">
+                        <table class="pw-table">
+                            <thead><tr><th>Matrícula</th><th>Alumno</th><th>P1</th><th>P2</th><th>P3</th><th>Promedio</th></tr></thead>
+                            <tbody id="doc-tbody"><tr><td colspan="6" class="pw-empty">Selecciona un grupo/materia.</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REPORTES DE CONDUCTA -->
+            <div class="pw-tab-content" id="panel-conducta">
+                <div class="pw-header">
+                    <div><h2>📝 Reportes de Conducta</h2><p>Registra incidencias de tus alumnos.</p></div>
+                    <span class="pw-badge">Docente</span>
+                </div>
+                <div class="pw-card">
+                    <h3>Nuevo reporte</h3>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Grupo</span><select class="pw-sel" id="rc-grupo" onchange="docCargarAlumnosGrupo()"></select></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Alumno</span><select class="pw-sel" id="rc-alumno"></select></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Fecha</span><input class="pw-inp" type="date" id="rc-fecha"></div>
+                    </div>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Motivo</span><input class="pw-inp" id="rc-motivo" placeholder="Ej. Falta de respeto, indisciplina..."></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Medida tomada</span><input class="pw-inp" id="rc-medida" placeholder="Ej. Llamada de atención, citatorio..."></div>
+                    </div>
+                    <div class="pw-fgrp"><span class="pw-flbl">Descripción</span><textarea class="pw-textarea" id="rc-descripcion" placeholder="Describe lo ocurrido..."></textarea></div>
+                    <button class="pw-btn pw-btn-red" onclick="docCrearReporte()">📤 Generar Reporte</button>
+                </div>
+                <div class="pw-table-wrap">
+                    <div class="pw-table-head"><h3>Mis reportes generados</h3></div>
+                    <div style="overflow-x:auto;">
+                        <table class="pw-table">
+                            <thead><tr><th>Fecha</th><th>Alumno</th><th>Grupo</th><th>Motivo</th><th>Medida</th></tr></thead>
+                            <tbody id="doc-tbody-reportes"><tr><td colspan="5" class="pw-empty">Cargando...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/portal-common.js"></script>
+<script src="assets/js/docente.js"></script>
+</body>
+</html>

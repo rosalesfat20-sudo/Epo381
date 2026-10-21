@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Administrador | EPO 381</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/portal.css">
+</head>
+<body>
+<div class="pw-sidebar-overlay" onclick="pwToggleSidebar()"></div>
+
+<div class="pw-topbar">
+    <div class="pw-topbar-brand">
+        <img src="img/Logo.png" alt="Logo" onerror="this.style.display='none'">
+        <div><h1>EPO 381</h1><span>Portal Administrador</span></div>
+    </div>
+    <button class="pw-hamburger" onclick="pwToggleSidebar()">☰</button>
+    <div class="pw-topbar-user" id="adm-nombre-top">Cargando...</div>
+    <div class="pw-topbar-actions">
+        <a class="pw-btn pw-btn-outline" href="index.html?publico=1">🏠 Sitio Público</a>
+        <button class="pw-btn pw-btn-red" onclick="cerrarSesion()">🚪 Salir</button>
+    </div>
+</div>
+
+<div class="pw-wrap">
+    <div class="pw-layout">
+        <div class="pw-sidebar">
+            <div class="pw-side-link active" data-panel="grupos" onclick="admGoto('grupos')">🏫 Grupos</div>
+            <div class="pw-side-link" data-panel="materias" onclick="admGoto('materias')">📚 Materias</div>
+            <div class="pw-side-link" data-panel="usuarios" onclick="admGoto('usuarios')">🧑‍🎓 Usuarios</div>
+            <div class="pw-side-link" data-panel="asignaciones" onclick="admGoto('asignaciones')">🔗 Asignaciones</div>
+            <div class="pw-side-link" data-panel="alumnos" onclick="admGoto('alumnos')">🔄 Grupo / Baja</div>
+            <div class="pw-side-link" data-panel="avisos" onclick="admGoto('avisos')">📢 Avisos</div>
+        </div>
+
+        <div class="pw-content">
+            <div class="pw-alert" id="adm-alert"></div>
+
+            <!-- GRUPOS -->
+            <div class="pw-tab-content active" id="panel-grupos">
+                <div class="pw-header"><div><h2>🏫 Grupos</h2><p>Crea los grupos del ciclo escolar.</p></div><span class="pw-badge">Admin</span></div>
+                <div class="pw-card">
+                    <h3>Nuevo grupo</h3>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Salón (grupo)</span>
+                            <select class="pw-sel" id="gr-nombre" onchange="admSincronizarGrado()">
+                                <option value="">Selecciona...</option>
+                                <option value="1 I">1 I</option><option value="1 II">1 II</option><option value="1 III">1 III</option>
+                                <option value="2 I">2 I</option><option value="2 II">2 II</option><option value="2 III">2 III</option>
+                                <option value="3 I">3 I</option><option value="3 II">3 II</option><option value="3 III">3 III</option>
+                            </select>
+                        </div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Grado</span><select class="pw-sel" id="gr-grado" disabled><option value="1">1°</option><option value="2">2°</option><option value="3">3°</option></select></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Semestre</span><select class="pw-sel" id="gr-semestre"><option value="1">1° (impar)</option><option value="2">2° (par)</option></select></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Turno</span><select class="pw-sel" id="gr-turno" disabled><option>Matutino</option></select></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Ciclo escolar</span><input class="pw-inp" id="gr-ciclo" value="2026-2027"></div>
+                    </div>
+                    <button class="pw-btn pw-btn-red" onclick="admCrearGrupo()">➕ Crear Grupo</button>
+                </div>
+                <div class="pw-table-wrap">
+                    <div class="pw-table-head"><h3>Grupos existentes</h3></div>
+                    <div style="overflow-x:auto;"><table class="pw-table">
+                        <thead><tr><th>Nombre</th><th>Grado</th><th>Semestre</th><th>Turno</th><th>Ciclo</th><th>Acciones</th></tr></thead>
+                        <tbody id="adm-tbody-grupos"><tr><td colspan="6" class="pw-empty">Cargando...</td></tr></tbody>
+                    </table></div>
+                </div>
+            </div>
+
+            <!-- MATERIAS -->
+            <div class="pw-tab-content" id="panel-materias">
+                <div class="pw-header"><div><h2>📚 Materias</h2><p>Catálogo de asignaturas — cada una pertenece a un semestre específico (1° a 6°), ya que cada semestre tiene sus propias materias.</p></div><span class="pw-badge">Admin</span></div>
+                <div class="pw-card">
+                    <h3 id="mat-form-title">Nueva materia</h3>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Nombre</span><input class="pw-inp" id="mat-nombre"></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Clave (opcional)</span><input class="pw-inp" id="mat-clave"></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Semestre</span>
+                            <select class="pw-sel" id="mat-semestre">
+                                <option value="">Selecciona...</option>
+                                <option value="1">1° semestre</option><option value="2">2° semestre</option>
+                                <option value="3">3° semestre</option><option value="4">4° semestre</option>
+                                <option value="5">5° semestre</option><option value="6">6° semestre</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:10px;">
+                        <button class="pw-btn pw-btn-red" id="mat-submit-btn" onclick="admGuardarMateria()">➕ Crear Materia</button>
+                        <button class="pw-btn pw-btn-gray" id="mat-cancelar-btn" style="display:none;" onclick="admCancelarEdicionMateria()">Cancelar edición</button>
+                    </div>
+                </div>
+                <div class="pw-table-wrap">
+                    <div class="pw-table-head"><h3>Materias existentes</h3></div>
+                    <div style="overflow-x:auto;"><table class="pw-table">
+                        <thead><tr><th>Clave</th><th>Nombre</th><th>Semestre</th><th>Acciones</th></tr></thead>
+                        <tbody id="adm-tbody-materias"><tr><td colspan="4" class="pw-empty">Cargando...</td></tr></tbody>
+                    </table></div>
+                </div>
+            </div>
+
+            <!-- USUARIOS -->
+            <div class="pw-tab-content" id="panel-usuarios">
+                <div class="pw-header"><div><h2>🧑‍🎓 Usuarios</h2><p>Registra alumnos, docentes y orientadores. Sin contraseñas por defecto.</p></div><span class="pw-badge">Admin</span></div>
+                <div class="pw-tabs">
+                    <button class="pw-tab-btn active" data-u="alumno" onclick="admUserTab('alumno')">👨‍🎓 Alumno</button>
+                    <button class="pw-tab-btn" data-u="docente" onclick="admUserTab('docente')">👨‍🏫 Docente</button>
+                    <button class="pw-tab-btn" data-u="orientador" onclick="admUserTab('orientador')">📝 Orientador</button>
+                </div>
+
+                <div class="pw-card">
+                    <h3 id="adm-user-form-title">Nuevo Alumno</h3>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Nombre(s)</span><input class="pw-inp" id="u-nombre"></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Apellido paterno</span><input class="pw-inp" id="u-appat"></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Apellido materno</span><input class="pw-inp" id="u-apmat"></div>
+                    </div>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Usuario / Matrícula (login)</span><input class="pw-inp" id="u-usuario"></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Contraseña inicial</span><input class="pw-inp" id="u-password"></div>
+                        <div class="pw-fgrp" id="u-grupo-wrap"><span class="pw-flbl">Grupo</span><select class="pw-sel" id="u-grupo"></select></div>
+                    </div>
+                    <button class="pw-btn pw-btn-red" id="u-submit-btn" onclick="admCrearUsuario()">➕ Crear Usuario</button>
+                    <button class="pw-btn pw-btn-gray" id="u-cancel-btn" style="display:none;" onclick="admCancelarEdicionUsuario()">Cancelar edición</button>
+                </div>
+
+                <div class="pw-table-wrap">
+                    <div class="pw-table-head"><h3 id="adm-user-list-title">Alumnos registrados</h3></div>
+                    <div style="overflow-x:auto;"><table class="pw-table">
+                        <thead id="adm-user-thead"><tr><th>Matrícula</th><th>Nombre</th><th>Grupo</th><th>Estatus</th><th>Acciones</th></tr></thead>
+                        <tbody id="adm-tbody-usuarios"><tr><td colspan="5" class="pw-empty">Cargando...</td></tr></tbody>
+                    </table></div>
+                </div>
+            </div>
+
+            <!-- ASIGNACIONES -->
+            <div class="pw-tab-content" id="panel-asignaciones">
+                <div class="pw-header"><div><h2>🔗 Asignaciones</h2><p>Materia + grupo por docente, y grupos por orientador.</p></div><span class="pw-badge">Admin</span></div>
+
+                <div class="pw-card">
+                    <h3>Asignar materia a un docente</h3>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Docente</span><select class="pw-sel" id="as-docente"></select></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Grupo</span><select class="pw-sel" id="as-grupo-docente" onchange="admFiltrarMateriasPorGrupo()"></select></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Materia</span><select class="pw-sel" id="as-materia"></select></div>
+                    </div>
+                    <p id="as-materia-hint" style="color:var(--p-gray);font-size:.85rem;margin:-6px 0 12px;">Solo se muestran las materias del semestre que le corresponde al grupo seleccionado.</p>
+                    <button class="pw-btn pw-btn-red" onclick="admAsignarDocente()">🔗 Asignar</button>
+                </div>
+                <div class="pw-table-wrap">
+                    <div class="pw-table-head"><h3>Asignaciones de docentes</h3></div>
+                    <div style="overflow-x:auto;"><table class="pw-table">
+                        <thead><tr><th>Docente</th><th>Materia</th><th>Grupo</th><th></th></tr></thead>
+                        <tbody id="adm-tbody-asig-docente"><tr><td colspan="4" class="pw-empty">Cargando...</td></tr></tbody>
+                    </table></div>
+                </div>
+
+                <div class="pw-card">
+                    <h3>Asignar grupo a un orientador</h3>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Orientador</span><select class="pw-sel" id="as-orientador"></select></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Grupo</span><select class="pw-sel" id="as-grupo-orientador"></select></div>
+                    </div>
+                    <button class="pw-btn pw-btn-red" onclick="admAsignarOrientador()">🔗 Asignar</button>
+                </div>
+                <div class="pw-table-wrap">
+                    <div class="pw-table-head"><h3>Asignaciones de orientadores</h3></div>
+                    <div style="overflow-x:auto;"><table class="pw-table">
+                        <thead><tr><th>Orientador</th><th>Grupo</th><th></th></tr></thead>
+                        <tbody id="adm-tbody-asig-orientador"><tr><td colspan="3" class="pw-empty">Cargando...</td></tr></tbody>
+                    </table></div>
+                </div>
+            </div>
+
+            <!-- CAMBIO DE GRUPO / BAJA -->
+            <div class="pw-tab-content" id="panel-alumnos">
+                <div class="pw-header"><div><h2>🔄 Cambio de Grupo / Baja de Alumno</h2><p>Mueve alumnos entre grupos o dalos de baja/alta.</p></div><span class="pw-badge">Admin</span></div>
+
+                <div class="pw-card">
+                    <h3>Cambio de grupo</h3>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Alumno</span><select class="pw-sel" id="cg-alumno"></select></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Grupo nuevo</span><select class="pw-sel" id="cg-grupo"></select></div>
+                        <div class="pw-fgrp" style="flex:2"><span class="pw-flbl">Motivo</span><input class="pw-inp" id="cg-motivo"></div>
+                    </div>
+                    <button class="pw-btn pw-btn-red" onclick="admCambiarGrupo()">🔄 Cambiar de grupo</button>
+                </div>
+
+                <div class="pw-card">
+                    <h3>🚀 Promoción masiva de grupo</h3>
+                    <p style="color:var(--p-gray);font-size:.95rem;margin-bottom:14px;">Mueve a <b>todos los alumnos activos</b> de un grupo a otro en un solo paso (por ejemplo, al pasar de semestre o de año). No necesitas volver a darlos de alta.</p>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Grupo de origen</span><select class="pw-sel" id="pm-origen"></select></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Grupo destino</span><select class="pw-sel" id="pm-destino"></select></div>
+                        <div class="pw-fgrp" style="flex:2"><span class="pw-flbl">Motivo</span><input class="pw-inp" id="pm-motivo" value="Promoción de fin de semestre"></div>
+                    </div>
+                    <button class="pw-btn pw-btn-red" onclick="admPromocionMasiva()">🚀 Mover a todo el grupo</button>
+                </div>
+
+                <div class="pw-card">
+                    <h3>Baja / Alta de alumno</h3>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Alumno</span><select class="pw-sel" id="baja-alumno"></select></div>
+                        <div class="pw-fgrp" style="flex:2"><span class="pw-flbl">Motivo de baja</span><input class="pw-inp" id="baja-motivo"></div>
+                    </div>
+                    <div style="display:flex;gap:10px;">
+                        <button class="pw-btn pw-btn-red" onclick="admBajaAlumno()">⛔ Dar de Baja</button>
+                        <button class="pw-btn pw-btn-gray" onclick="admAltaAlumno()">✅ Reactivar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AVISOS -->
+            <div class="pw-tab-content" id="panel-avisos">
+                <div class="pw-header"><div><h2>📢 Avisos Institucionales</h2><p>Se muestran en la página principal del sitio público.</p></div><span class="pw-badge">Admin</span></div>
+                <div class="pw-card">
+                    <h3 id="av-form-title">Nuevo aviso</h3>
+                    <input type="hidden" id="av-id">
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp" style="flex:2"><span class="pw-flbl">Título</span><input class="pw-inp" id="av-titulo"></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Orden (menor = primero)</span><input class="pw-inp" type="number" id="av-orden" value="0"></div>
+                    </div>
+                    <div class="pw-fgrp"><span class="pw-flbl">Contenido</span><textarea class="pw-textarea" id="av-contenido"></textarea></div>
+                    <div class="pw-form-row">
+                        <div class="pw-fgrp"><span class="pw-flbl">Imagen (opcional, JPG/PNG/WEBP, máx 5MB)</span><input class="pw-inp" type="file" id="av-imagen" accept="image/*"></div>
+                        <div class="pw-fgrp"><span class="pw-flbl">Visible en el sitio</span>
+                            <select class="pw-sel" id="av-activo"><option value="1">Sí, mostrar</option><option value="0">No, ocultar</option></select>
+                        </div>
+                    </div>
+                    <button class="pw-btn pw-btn-red" id="av-submit-btn" onclick="admGuardarAviso()">📤 Publicar aviso</button>
+                    <button class="pw-btn pw-btn-gray" id="av-cancel-btn" style="display:none;" onclick="admCancelarEdicionAviso()">Cancelar edición</button>
+                </div>
+                <div id="adm-avisos-lista" style="display:flex;flex-direction:column;gap:14px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/portal-common.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>
