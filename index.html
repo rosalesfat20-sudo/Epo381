@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Institucional | EPO 381</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-first">
+
+<header>
+    <div class="nav-wrapper">
+        <div class="logo-box" onclick="showPage('home')">
+            <img src="img/Logo.png" class="logo-img" alt="Logo">
+            <div class="logo-text">
+                <h1>EPO 381</h1>
+                <span>TENANCINGO</span>
+            </div>
+        </div>
+        <button class="menu-toggle" id="menu-toggle-btn" onclick="document.querySelector('.menu-list').classList.toggle('open')">☰</button>
+        <ul class="menu-list">
+            <li class="menu-item"><a class="menu-link" onclick="showPage('home')">Inicio</a></li>
+            <li class="menu-item">
+                <a class="menu-link">Acerca de ▾</a>
+                <div class="dropdown">
+                    <a class="drop-link" onclick="showPage('about')">📄 Misión / Visión</a>
+                    <a class="drop-link" onclick="showPage('valores')">⭐ Valores</a>
+                    <a class="drop-link" onclick="showPage('location')">📍 Ubicación</a>
+                    <a class="drop-link" onclick="showPage('mascota')">🦁 Mascota Institucional</a>
+                    <a class="drop-link" onclick="showPage('instalaciones')">🏫 Instalaciones</a>
+                    <a class="drop-link" onclick="showPage('calendario')">📅 Calendario Escolar</a>
+                </div>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link">Comunidad ▾</a>
+                <div class="dropdown">
+                    <a class="drop-link" onclick="irAPortal('alumno')">👨‍🎓 Portal Estudiante</a>
+                    <a class="drop-link" onclick="irAPortal('docente')">👨‍🏫 Portal Docente</a>
+                    <a class="drop-link" onclick="irAPortal('orientador')">📝 Portal Orientador</a>
+                    <a class="drop-link" onclick="irAPortal('admin')">🛠️ Portal Administrador</a>
+                </div>
+            </li>
+            <li class="menu-item"><a class="menu-link" onclick="showPage('contacto')" style="color: var(--p-red);">📞 Contacto</a></li>
+        <li class="menu-item"><a class="menu-link" id="menu-mi-portal" onclick="irAMiPortal()" style="color: var(--p-red);">🚪 Mi portal</a></li>
+            <li class="menu-item"><a class="menu-link" onclick="cerrarSesionSitio()">Salir</a></li>
+        </ul>
+    </div>
+</header>
+
+<!-- ══════════ INICIO ══════════ -->
+<main id="page-home" class="page">
+    <div style="background: linear-gradient(rgba(30,41,59,0.8), rgba(142,27,34,0.6)), url('img/Logo.jpeg'); height: 450px; border-radius: 30px; display: flex; align-items: center; justify-content: center; color: white; text-align: center; background-position: center; background-size: cover; box-shadow: var(--shadow);">
+        <div>
+            <h2 style="font-size: 3.5rem; font-family: 'Outfit'; margin-bottom: 10px;">Bienvenido a la EPO 381</h2>
+            <p style="font-size: 1.4rem; font-weight: 300; letter-spacing: 2px;">"CULTURA, DISCIPLINA Y EXCELENCIA"</p>
+        </div>
+    </div>
+
+    <div id="avisos-seccion" style="margin-top: 40px;">
+        <h2 style="font-family:'Outfit'; color: var(--p-navy); font-size: 2rem; margin-bottom: 20px;">📢 Avisos Institucionales</h2>
+        <div id="avisos-lista">
+            <p style="color:#64748b;">Cargando avisos...</p>
+        </div>
+    </div>
+</main>
+<main id="page-instalaciones" class="page">
+    <div class="section-header"><h2>Nuestras Instalaciones</h2></div>
+    <div class="grid-layout">
+        <div class="card inst-card"><img src="img/entrada.jpeg" class="inst-img"><div class="inst-info"><h4>Entrada Principal</h4><p>Acceso controlado para seguridad de nuestra comunidad.</p></div></div>
+        <div class="card inst-card"><img src="img/Aula.jpeg" class="inst-img"><div class="inst-info"><h4>Aulas de Clase</h4><p>9 espacios equipados para el desarrollo académico.</p></div></div>
+        <div class="card inst-card"><img src="img/Campo de Futbol.jpeg" class="inst-img"><div class="inst-info"><h4>Campo de Fútbol</h4><p>Espacio deportivo para el fomento a la salud.</p></div></div>
+        <div class="card inst-card"><img src="img/Control Escolar.jpeg" class="inst-img"><div class="inst-info"><h4>Control Escolar</h4><p>Atención administrativa, Dirección y Subdirección.</p></div></div>
+        <div class="card inst-card"><img src="img/Laboratorio.jpeg" class="inst-img"><div class="inst-info"><h4>Laboratorio de Cómputo</h4><p>Equipos modernos para prácticas tecnológicas.</p></div></div>
+        <div class="card inst-card"><img src="img/Orientacion.jpeg" class="inst-img"><div class="inst-info"><h4>Área de Orientación</h4><p>5 cubículos privados de atención personalizada.</p></div></div>
+        <div class="card inst-card"><img src="img/Sala de Maestros.jpeg" class="inst-img"><div class="inst-info"><h4>Sala de Maestros</h4><p>Espacio colegiado para planeación docente.</p></div></div>
+        <div class="card inst-card"><img src="img/Papeleria.jpeg" class="inst-img"><div class="inst-info"><h4>Servicios Escolares</h4><p>Papelería y materiales a disposición.</p></div></div>
+        <div class="card inst-card"><img src="img/Sanitarios.jpeg" class="inst-img"><div class="inst-info"><h4>Sanitarios</h4><p>Módulos sanitarios con mantenimiento constante.</p></div></div>
+    </div>
+</main>
+<main id="page-location" class="page">
+    <div class="section-header"><h2>Ubicación</h2></div>
+    <div class="grid-layout" style="grid-template-columns: 1fr 1fr;">
+        <div class="card" style="text-align: left; padding: 40px; background: var(--p-navy); color: white;">
+            <h3 style="color:var(--p-red); margin-bottom:20px; font-family:'Outfit'; font-size: 1.8rem;">Domicilio</h3>
+            <p style="font-size: 1.2rem; line-height: 2; opacity: 0.9;">
+                📍 Carr. Tenancingo, Zumpahuacan k.m 2.0,<br>
+                Col. Ejercito del Trabajo, C.P. 52400,<br>
+                Tenancingo, Estado de Mexico.
+            </p>
+        </div>
+        <div class="card" style="padding:0; overflow:hidden; border: 5px solid white;">
+            <img src="img/Ubicacion.png" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+    </div>
+</main>
+<main id="page-mascota" class="page">
+    <div class="section-header"><h2>Identidad Institucional</h2></div>
+    <div class="card" style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <img src="img/Mascota.png" style="width:100%; border-radius:12px; box-shadow: var(--shadow);">
+        <h3 style="margin-top:25px; font-family:'Outfit'; color: var(--p-red); font-size: 2rem;">Orgullo EPO 381</h3>
+    </div>
+</main>
+<main id="page-calendario" class="page">
+    <div class="section-header"><h2>Calendario Escolar 2025 - 2026</h2></div>
+    <div class="calendar-container">
+        <img src="img/calendario.jpeg" alt="Calendario Escolar">
+    </div>
+</main>
+<main id="page-contacto" class="page">
+    <div class="section-header"><h2>Atención Ciudadana</h2></div>
+    <div class="grid-layout">
+        <div class="card" style="padding: 40px; border-top: 8px solid var(--p-blue);">
+            <h3 style="font-family:'Outfit'; margin-bottom: 15px;">📞 TELÉFONO</h3>
+            <p style="font-size: 1.8rem; font-weight: 800; color: var(--p-blue);">(714) 688 70 01</p>
+        </div>
+        <div class="card" style="padding: 40px; border-top: 8px solid var(--p-red);">
+            <h3 style="font-family:'Outfit'; margin-bottom: 15px;">✉️ CORREO</h3>
+            <p style="font-size: 1.3rem; font-weight: 800; color: var(--p-red);">epoanten@edugem.gob.mx</p>
+        </div>
+    </div>
+</main>
+<main id="page-about" class="page">
+    <section class="mv-clean">
+        <div class="section-title">
+            <span class="line"></span>
+            <h2>Filosofía</h2>
+        </div>
+        <div class="mv-container">
+            <div class="mv-card left">
+                <div class="card-header">
+                    <div class="icon blue">🎯</div>
+                    <h3>MISIÓN</h3>
+                </div>
+                <p>Brindar una Educación Media Superior Integral, humanista e inclusiva, en concordancia con los principios de la Nueva Escuela Mexicana. Formando estudiantes con pensamiento crítico, compromiso social y habilidades para la vida, capaces de continuar con su trayectoria educativa y de contribuir de manera activa a las necesidades de su comunidad para el bienestar de su entorno, fomentando una cultura de paz y cuidado del medio ambiente.</p>
+            </div>
+            <div class="mv-center">
+                <img src="img/Logo.png" alt="Logo">
+                <div class="divider"></div>
+                <p>CULTURA, DISCIPLINA<br>Y EXCELENCIA</p>
+                <div class="divider"></div>
+            </div>
+            <div class="mv-card right">
+                <div class="card-header">
+                    <div class="icon red">🚀</div>
+                    <h3>VISIÓN</h3>
+                </div>
+                <p>Ser una institución de Educación Media Superior que sea referente en la región por su calidad académica y por su innovación pedagógica. Con perspectiva humanista y comprometida con la equidad y la inclusión, en el marco de los principios de la Nueva Escuela Mexicana y consolidarnos como un plantel educativo que fomente la identidad y la formación de ciudadanos participativos en el cuidado del medio ambiente y en la transformación de su comunidad.</p>
+            </div>
+        </div>
+    </section>
+    <section class="mv-values-bar">
+        <div class="values-container">
+            <div class="value-item"><div class="value-icon blue">🎓</div><span>Excelencia Académica</span></div>
+            <div class="divider-vertical"></div>
+            <div class="value-item"><div class="value-icon red">👥</div><span>Formación Integral</span></div>
+            <div class="divider-vertical"></div>
+            <div class="value-item"><div class="value-icon blue">🤝</div><span>Compromiso Social</span></div>
+        </div>
+    </section>
+</main>
+<main id="page-valores" class="page">
+    <div class="section-title">
+        <span class="line"></span>
+        <h2>Valores</h2>
+    </div>
+    <section class="valores-pro">
+        <div class="val-card">
+            <div class="val-icon blue">🤝</div>
+            <h3>Respeto</h3>
+            <p>Actuar con sensibilidad para reconocer la diversidad de la comunidad escolar favoreciendo la inclusión y la convivencia armónica dentro y fuera de la institución.</p>
+        </div>
+        <div class="val-card">
+            <div class="val-icon red">📘</div>
+            <h3>Responsabilidad</h3>
+            <p>Actuar con ética, disciplina y compromiso académico, social y ambiental.</p>
+        </div>
+        <div class="val-card">
+            <div class="val-icon blue">🏫</div>
+            <h3>Identidad</h3>
+            <p>Asumir con orgullo y sentido de pertenencia los valores institucionales para fortalecer a la comunidad escolar y proyectar una imagen positiva.</p>
+        </div>
+        <div class="val-card">
+            <div class="val-icon red">🎯</div>
+            <h3>Compromiso</h3>
+            <p>Trabajar con responsabilidad en las tareas académicas, personales y sociales para cumplir con los objetivos de la institución.</p>
+        </div>
+        <div class="val-card">
+            <div class="val-icon blue">🌍</div>
+            <h3>Inclusión</h3>
+            <p>Reconocer la diversidad y actuar con respeto para garantizar la igualdad de oportunidades en un ambiente de equidad.</p>
+        </div>
+    </section>
+</main>
+<!-- ══════════ LOGIN ══════════ -->
+<main id="page-login" class="page active">
+    <div class="card login-card">
+        <img src="img/Logo.png" class="login-logo" alt="Logo EPO 381">
+        <h3 id="l-title" class="login-title">Iniciar Sesión</h3>
+        <p id="l-hint" class="login-hint">Ingresa con el mismo usuario y contraseña de tu portal (administrador, docente, alumno u orientador).</p>
+        <div id="login-error" class="login-error" style="display:none;">❌ Usuario o contraseña incorrectos. Verifica tus datos.</div>
+        <input id="login-usuario"  class="login-input" type="text"     autocomplete="username"         placeholder="Número de Cuenta / Usuario">
+        <input id="login-password" class="login-input" type="password" autocomplete="current-password" placeholder="Contraseña">
+        <button class="btn btn-red" id="login-btn" style="width:100%;" onclick="processLogin()">Acceder al Sistema</button>
+    </div>
+</main>
+
+<footer>
+    <img src="img/Logo.png" style="height: 80px;">
+    <p style="font-weight: 800; letter-spacing: 1px;">ESCUELA PREPARATORIA OFICIAL NÚM. 381/TURNO MATUTINO 15EBP0025F</p>
+    <p style="opacity: 0.7; font-size: 0.8rem; margin-top: 10px;">Tenancingo, Estado de México</p>
+</footer>
+<!-- ══════════ AVISO LEGAL (aparece al iniciar sesión) ══════════ -->
+<div id="aviso-legal" class="aviso-legal-overlay" role="dialog" aria-modal="true" aria-labelledby="aviso-legal-titulo">
+    <div class="aviso-legal-box">
+        <div class="aviso-legal-head">
+            <div class="aviso-legal-icon">⚠️</div>
+            <h2 id="aviso-legal-titulo">AVISO IMPORTANTE</h2>
+        </div>
+        <div class="aviso-legal-body">
+            <p class="aviso-legal-destacado">La información de este sitio es <strong>únicamente informativa</strong> y <strong>no tiene validez oficial</strong> ante la Secretaría de Educación Pública (SEP) ni ante ninguna otra autoridad educativa.</p>
+            <p>Las calificaciones, reportes, avisos y demás datos que consultes aquí no sustituyen boletas, constancias ni documentos oficiales. Para cualquier trámite o aclaración, acude directamente a la institución.</p>
+            <button class="btn btn-red" style="width:100%;" onclick="aceptarAvisoLegal()">Entendido, continuar</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast-msg" style="position:fixed;bottom:24px;right:24px;z-index:9999;padding:14px 20px;border-radius:10px;font-weight:600;font-size:.88rem;background:#dcfce7;color:#15803d;box-shadow:0 4px 24px rgba(0,0,0,.15);opacity:0;transition:opacity .3s;pointer-events:none;max-width:320px;"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
